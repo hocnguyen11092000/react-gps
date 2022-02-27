@@ -44,6 +44,9 @@ function App() {
           margin: "20px",
         }}
       />
+      <span>
+        lat: {gpsImg.lat}; lng: {gpsImg.lng}
+      </span>
       {/* <button onClick={parseExif}>test</button> */}
       {/* <img src={} alt="" className="img" /> */}
       <div style={{ width: 1000, height: 600 }}>
