@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import exifr, { parse } from "exifr";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
+import ReactFileUploadMobile from "react-file-upload-mobile";
 
 function App() {
   const fileRef = useRef(null);
@@ -10,13 +11,41 @@ function App() {
     lat: "",
     lng: "",
   });
+  const onUpload = (file) => {
+    parse(file, { gps: true }).then((data) => {
+      const { latitude, longitude } = data;
+      console.log(data);
+      setGpsImg({
+        lat: latitude,
+        lng: longitude,
+      });
+    });
+  };
 
+  var getBrowserWidth = function () {
+    if (window.innerWidth < 768) {
+      // Extra Small Device
+      return "xs";
+    } else if (window.innerWidth < 991) {
+      // Small Device
+      return "sm";
+    } else if (window.innerWidth < 1199) {
+      // Medium Device
+      return "md";
+    } else {
+      // Large Device
+      return "lg";
+    }
+  };
+  const device = getBrowserWidth();
+  console.log(device);
   async function handleChange(e) {
     parse(fileRef.current.files[0], { gps: true }).then((data) => {
       const { latitude, longitude } = data;
+      console.log(data);
       setGpsImg({
-        lat: Number.parseFloat(latitude),
-        lng: Number.parseFloat(longitude),
+        lat: latitude,
+        lng: longitude,
       });
     });
   }
@@ -39,6 +68,13 @@ function App() {
       <span>
         lat: {gpsImg.lat} - lng: {gpsImg.lng}
       </span>
+      <ReactFileUploadMobile
+        fileUrl={image}
+        displayOnly={false}
+        compressImg={0.8}
+        onFileUpload={onUpload}
+        showNote={true}
+      />
 
       <div style={{ width: 1000, height: 600 }}>
         <GoogleMapReact
