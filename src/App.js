@@ -38,7 +38,7 @@ function App() {
     }
   };
   const device = getBrowserWidth();
-  console.log(device);
+
   async function handleChange(e) {
     parse(fileRef.current.files[0], { gps: true }).then((data) => {
       const { latitude, longitude } = data;
@@ -52,29 +52,33 @@ function App() {
 
   return (
     <>
-      <input
-        type="file"
-        id="file"
-        accept=".jpg, .png, .heif, .heic"
-        onChange={handleChange}
-        ref={fileRef}
-        style={{
-          border: "none",
-          outlineL: "none",
-          padding: "8px 12px",
-          margin: "20px",
-        }}
-      />
+      {device == "xs" ? (
+        <ReactFileUploadMobile
+          fileUrl={image}
+          displayOnly={false}
+          compressImg={0.8}
+          onFileUpload={onUpload}
+          showNote={true}
+        />
+      ) : (
+        <input
+          type="file"
+          id="file"
+          accept=".jpg, .png, .heif, .heic"
+          onChange={handleChange}
+          ref={fileRef}
+          style={{
+            border: "none",
+            outlineL: "none",
+            padding: "8px 12px",
+            margin: "20px",
+          }}
+        />
+      )}
+
       <span>
         lat: {gpsImg.lat} - lng: {gpsImg.lng}
       </span>
-      <ReactFileUploadMobile
-        fileUrl={image}
-        displayOnly={false}
-        compressImg={0.8}
-        onFileUpload={onUpload}
-        showNote={true}
-      />
 
       <div style={{ width: 1000, height: 600 }}>
         <GoogleMapReact
