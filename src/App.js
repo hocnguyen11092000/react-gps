@@ -15,19 +15,11 @@ function App() {
     parse(fileRef.current.files[0], { gps: true }).then((data) => {
       const { latitude, longitude } = data;
       setGpsImg({
-        lat: latitude,
-        lng: longitude,
+        lat: Number.parseFloat(latitude),
+        lng: Number.parseFloat(longitude),
       });
     });
   }
-
-  const parseExif = () => {
-    console.log(fileRef.current.files[0]);
-    parse(fileRef.current.files[0], { gps: true }).then((data) => {
-      const { latitude, longitude } = data;
-      console.log(latitude, longitude);
-    });
-  };
 
   return (
     <>
@@ -45,10 +37,9 @@ function App() {
         }}
       />
       <span>
-        lat: {gpsImg.lat}; lng: {gpsImg.lng}
+        lat: {gpsImg.lat} - lng: {gpsImg.lng}
       </span>
-      {/* <button onClick={parseExif}>test</button> */}
-      {/* <img src={} alt="" className="img" /> */}
+
       <div style={{ width: 1000, height: 600 }}>
         <GoogleMapReact
           defaultZoom={10}
